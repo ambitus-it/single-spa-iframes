@@ -3,7 +3,8 @@
     "target": "es2015",
     "sourceMap": true,
     "declaration": true,
-    "declarationDir": "lib"
+    "declarationDir": "lib",
+    "outDir": "lib"
   },
   "exclude": [
     "node_modules",

@@ -1,12 +1,12 @@
 {
   "name": "single-spa-iframes",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Workaround to use microfrontends iframes with single-spa",
   "main": "lib/index.js",
-  "types": "lib/src/index.d.ts",
+  "types": "./lib/src/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c"
+    "build": "rm -rf lib && tsc"
   },
   "repository": {
     "type": "git",
@@ -24,9 +24,6 @@
   },
   "homepage": "https://github.com/ambitus-it/single-spa-iframes#readme",
   "devDependencies": {
-    "rollup": "^1.27.14",
-    "rollup-plugin-typescript2": "^0.25.3",
-    "tslib": "^1.10.0",
     "typescript": "^3.7.4"
   }
 }
