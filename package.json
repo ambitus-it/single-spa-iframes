@@ -1,6 +1,6 @@
 {
   "name": "single-spa-iframes",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Workaround to use microfrontends iframes with single-spa",
   "main": "lib/index.js",
   "types": "lib/src/index.d.ts",
