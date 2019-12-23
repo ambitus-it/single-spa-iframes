@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "lib"
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
