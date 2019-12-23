@@ -1,5 +1,5 @@
-import LifeCyclesType from './types/LifeCycles'
-import LifeCycleOpts from './types/LifeCycleOpts'
+import LifeCyclesType from '../types/LifeCycles'
+import LifeCycleOpts from '../types/LifeCycleOpts'
 
 class LifeCycles implements LifeCyclesType {
   iframe: HTMLElement = document.createElement("iframe");

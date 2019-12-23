@@ -1,8 +1,10 @@
-import singleSpaIframes from './index'
+import singleSpaIframes from './src/index'
 
 const iframeLifeCycles = singleSpaIframes({
   baseUrl: 'http://localhost:2910/#',
-  elGetter: () => document.getElementById('easyApp')
+  elGetter() {
+    return document.getElementById('easyApp')
+  }
 })
 
 export const bootstrap = iframeLifeCycles.bootstrap

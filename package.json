@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A Workaround to use microfrontends iframes with single-spa",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "types": "lib/src/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"
@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/ambitus-it/single-spa-iframes#readme",
   "devDependencies": {
-    "@rollup/plugin-typescript": "^2.0.1",
     "rollup": "^1.27.14",
+    "rollup-plugin-typescript2": "^0.25.3",
     "tslib": "^1.10.0",
     "typescript": "^3.7.4"
   }
