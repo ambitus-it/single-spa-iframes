@@ -1,51 +1,91 @@
-import LifeCyclesType from '../types/LifeCycles'
+import LifeCycleType from '../types/LifeCycles'
 import LifeCycleOpts from '../types/LifeCycleOpts'
 
-class LifeCycles implements LifeCyclesType {
+class Lifecycles implements LifeCycleType {
+  constructor(opts: LifeCycleOpts) {
+    this.node = opts.elGetter()
+
+    Object.defineProperty(history, 'pushState', {
+      enumerable: true,
+      configurable: true,
+      writable: true,
+      value: this._wr('pushState')
+    })
+    Object.defineProperty(history, 'replaceState', {
+      enumerable: true,
+      configurable: true,
+      writable: true,
+      value: this._wr('replaceState')
+    })
+  }
+
   iframe: HTMLElement = document.createElement("iframe");
+  node: HTMLElement;
+  private _wr = (type): Function => {
+    const orig = history[type];
 
-  bootstrap(opts: LifeCycleOpts): Promise<any> {
-    return Promise
-      .resolve()
+    return function(...args): typeof orig {
+        const rv = orig.apply(this, args);
+        const e = new Event(type);
+        // @ts-ignore
+        e.arguments = args;
+        window.dispatchEvent(e);
+
+        return rv;
+    };
+  };
+
+  private setIframeSrc(opts: LifeCycleOpts): void {
+    this.iframe.setAttribute('src', `${opts.baseUrl}${window.location.pathname}`)
   }
-  mount(opts: LifeCycleOpts): Promise<any> {
+
+  bootstrap(opts: LifeCycleOpts): Promise<void> {
     return Promise
       .resolve()
       .then(() => {
-        const element = opts.elGetter()
-        this.iframe.setAttribute('src', `${opts.baseUrl}${window.location.pathname}`)
+        this.setIframeSrc(opts)
         this.iframe.setAttribute('style', 'width: 100%; height: 100%;')
+        this.iframe.setAttribute('frameborder', '0')
+
+        window.addEventListener('pushState', (): void => {
+          this.setIframeSrc(opts)
+        });
+      })
+  }
+
+  mount(opts?: LifeCycleOpts): Promise<void> {
+    return Promise
+      .resolve()
+      .then(() => {
+        const element = this.node
         element.appendChild(this.iframe)
-
-        console.log('mounted!')
       });
   }
-  unmount(opts: LifeCycleOpts): Promise<any> {
+
+  unmount(opts?: LifeCycleOpts): Promise<void> {
     return Promise
       .resolve()
       .then(() => {
-        const element = opts.elGetter()
+        const element = this.node
         element.innerHTML = ``
-
-        console.log('unmounted!');
       });
   }
-  unload(opts: LifeCycleOpts): Promise<any> {
+
+  unload(opts?: LifeCycleOpts): Promise<void> {
     return Promise
       .resolve()
       .then(() => {
-        console.log('unloaded!');
       });
   }
 }
 
 const singleSpaIframes = (opts: LifeCycleOpts) => {
-  const lifeCycles = new LifeCycles();
+  const lifecycles = new Lifecycles(opts);
 
   return {
-    bootstrap: () => lifeCycles.bootstrap(opts),
-    mount: () => lifeCycles.mount(opts),
-    unmount: () => lifeCycles.unmount(opts),
+    bootstrap: () => lifecycles.bootstrap(opts),
+    mount: () => lifecycles.mount(opts),
+    unmount: () => lifecycles.unmount(opts),
   }
 }
 
