@@ -1,4 +1,4 @@
-interface LifeCycles {
+interface LifeCycle {
     iframe: HTMLElement;
 }
-export default LifeCycles;
+export default LifeCycle;
